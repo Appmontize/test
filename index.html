@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-landing Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Download Our App</h1>
+    <button id="downloadBtn">Download</button>
+
+    <script>
+        $(document).ready(function() {
+            $('#downloadBtn').click(function() {
+                $.getJSON('https://api.ipify.org?format=json', function(data) {
+                    const ip = data.ip;
+                    $.ajax({
+                        url: 'http://http://192.168.1.10/test//test/store_ip.php', // Adjust this URL based on your local setup
+                        type: 'POST',
+                        data: { ip: ip },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                window.location.href = './app-release.apk'; // URL to your app
+                            } else {
+                                alert('Error storing IP');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('An error occurred: ' + error);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
